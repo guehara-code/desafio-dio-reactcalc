@@ -1,25 +1,138 @@
-import logo from './logo.svg';
-import './App.css';
+import Input from './components/Input';
+import Button from './components/Button';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { Container, Content, Row } from './styles';
+import { useState } from 'react';
+
+
+const App = () => {
+	const [currentNumber, setCurrentNumber] = useState('0');
+	const [firstNumber, setFirstNumber] = useState('0');
+	const [operation, setOperation] = useState('');
+
+	const handleOnClear = () => {
+		setCurrentNumber('0');
+		setFirstNumber('0');
+	}
+
+	const handleAddNumber = (number) => {
+		setCurrentNumber(prev => `${prev === '0' ? '' : prev}${number}`);
+	}
+
+	const handleSumNumbers = () => {
+		if (firstNumber === '0') {
+			setFirstNumber(String(currentNumber));
+			setCurrentNumber('0');
+			setOperation('+');
+		} else {
+			const res = Number(firstNumber) + Number(currentNumber);
+			setCurrentNumber(String(res));
+			setFirstNumber('0');
+			setOperation('');
+		}
+	}
+
+	const handleSubNumbers = () => {
+		if (firstNumber === '0') {
+			setFirstNumber(String(currentNumber));
+			setCurrentNumber('0');
+			setOperation('-');
+		} else {
+			const res = Number(firstNumber) - Number(currentNumber);
+			setCurrentNumber(String(res));
+			setFirstNumber('0');
+			setOperation('');
+		}
+	}
+
+	const handleProdNumbers = () => {
+		if (firstNumber === '0') {
+			setFirstNumber(String(currentNumber));
+			setCurrentNumber('0');
+			setOperation('*');
+		} else {
+			const res = Number(firstNumber) * Number(currentNumber);
+			setCurrentNumber(String(res));
+			setFirstNumber('0');
+			setOperation('');
+		}
+	}
+
+	const handleDivNumbers = () => {
+		if (firstNumber === '0') {
+			setFirstNumber(String(currentNumber));
+			setCurrentNumber('0');
+			setOperation('/');
+		} else {
+			const res = Number(firstNumber) / Number(currentNumber);
+			setCurrentNumber(String(res));
+			setFirstNumber('0');
+			setOperation('');
+		}
+	}
+
+	const handleEquals = () => {
+		if (firstNumber !== '0' && operation !== '' && currentNumber !== '0') {
+			console.log(firstNumber);
+			console.log(currentNumber);
+			console.log(operation);
+			switch (operation) {
+				case '+':
+					console.log("caseOK")
+					handleSumNumbers();
+					break;
+				case '-':
+					console.log("caseOK")
+					handleSubNumbers();
+					break;
+				case '*':
+					console.log("caseOK")
+					handleProdNumbers();
+					break;
+				case '/':
+					console.log("caseOK")
+					handleDivNumbers();
+					break;
+				default: break;
+			}
+
+		}
+	}
+
+	return (
+		<Container>
+			<Content>
+				<Input value={currentNumber} />
+
+				<Row>
+					<Button label="7" onClick={() => handleAddNumber('7')} />
+					<Button label="8" onClick={() => handleAddNumber('8')} />
+					<Button label="9" onClick={() => handleAddNumber('9')} />
+					<Button label="C" onClick={() => handleOnClear('')} />
+				</Row>
+				<Row>
+					<Button label="4" onClick={() => handleAddNumber('4')} />
+					<Button label="5" onClick={() => handleAddNumber('5')} />
+					<Button label="6" onClick={() => handleAddNumber('6')} />
+					<Button label="+" onClick={handleSumNumbers} />
+				</Row>
+				<Row>
+					<Button label="1" onClick={() => handleAddNumber('1')} />
+					<Button label="2" onClick={() => handleAddNumber('2')} />
+					<Button label="3" onClick={() => handleAddNumber('3')} />
+					<Button label="-" onClick={handleSubNumbers} />
+				</Row>
+				<Row>
+					<Button label="=" onClick={handleEquals} />
+					<Button label="0" onClick={() => handleAddNumber('0')} />
+					<Button label="x" onClick={handleProdNumbers} />
+					<Button label="/" onClick={handleDivNumbers} />
+				</Row>
+
+
+			</Content>
+		</Container>
+	);
 }
 
 export default App;
